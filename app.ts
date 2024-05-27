@@ -1,6 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import { routes } from "./routes";
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
+const corsOptions = {
+    credentials: true,
+    origin: "http://localhost:3000"
+}
 
 class App {
     public express: express.Application
@@ -13,10 +20,12 @@ class App {
     }
 
     private middleware(): void {
-        this.express.use(express.json())
+        this.express.use(express.json());
+        this.express.use(cors(corsOptions));
+        this.express.use(cookieParser());
     }
 
-    private async database(){
+    private async database() {
         try {
             mongoose.set("strictQuery", true)
             await mongoose.connect("mongodb://0.0.0.0:27017/biblioteca")
@@ -26,7 +35,7 @@ class App {
         }
     }
 
-    private routes(): void{
+    private routes(): void {
         this.express.use(routes)
     }
 }
