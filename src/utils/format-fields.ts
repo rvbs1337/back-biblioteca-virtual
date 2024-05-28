@@ -7,4 +7,8 @@ export class FormatFields {
     public formatPhoneNumber(value: string) {
         return value.replace(/\D/g, '');
     }
+
+    public onlyNumbers(value: string) {
+        return value.replace(/\D/g, '');
+    }
 }

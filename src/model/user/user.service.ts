@@ -1,12 +1,14 @@
 import { CreateUserDTO } from "../../dtos/user/create-user.dto";
-import userSchema from "./user.schema";
+import userModel from "./user.schema";
 import { ValidateFields } from "../../utils/validate-fields";
 import { ServiceData } from "../../utils/service-data";
 import { HttpStatus } from "../../enums/http-status.enum";
 import { Errors } from "../../enums/errors.enum";
 import { FormatFields } from "../../utils/format-fields";
+import { User } from "../../interface/user.interface";
+import { Hash } from "../../utils/hash";
 
-export class UserService {
+class UserService {
     private readonly validate = new ValidateFields();
     private readonly format = new FormatFields();
     // async create(user: any) {
@@ -19,6 +21,9 @@ export class UserService {
     // }
 
     async create(createUserDto: CreateUserDTO) {
+
+        const hash = new Hash();
+
         if (!this.validate.validateEmptyString(createUserDto.firstName) || !this.validate.validateEmptyString(createUserDto.lastName)) {
             return new ServiceData(
                 HttpStatus.BAD_REQUEST,
@@ -26,10 +31,20 @@ export class UserService {
             )
         }
 
+        createUserDto.cpf = this.format.onlyNumbers(createUserDto.cpf);
         if (!this.validate.validateCpf(createUserDto.cpf)) {
             return new ServiceData(
                 HttpStatus.BAD_REQUEST,
                 Errors.CPF_ERROR
+            )
+        }
+
+        const exists: User | null = await userModel.findOne({ cpf: createUserDto.cpf });
+
+        if (exists !== null) {
+            return new ServiceData(
+                HttpStatus.BAD_REQUEST,
+                Errors.CPF_ALREADY_EXISTS
             )
         }
 
@@ -61,6 +76,7 @@ export class UserService {
                 Errors.PASSWORD_LENGTH_ERROR
             )
         }
+        createUserDto.password = await hash.encode(createUserDto.password);
 
         if (!this.validate.validateState(createUserDto.state)) {
             return new ServiceData(
@@ -68,32 +84,45 @@ export class UserService {
                 Errors.STATE_ERROR
             )
         }
+        //validar cidade
 
-        //validar 
+        return userModel.create(createUserDto)
+            .then(() => {
+                return new ServiceData(
+                    HttpStatus.CREATED
+                )
+            })
+            .catch(() => {
+                return new ServiceData(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    Errors.INTERNAL_ERROR
+                )
+            })
+
     }
 
     async findById(id: any) {
-        const foundUser = await userSchema.findById(id)
+        const foundUser = await userModel.findById(id)
         return foundUser
     }
 
     async findAll() {
-        const foundUser = await userSchema.find()
+        const foundUser = await userModel.find()
         return foundUser
     }
 
     async updateById(id: any, user: any) {
-        const foundUser = await userSchema.findByIdAndUpdate(id, user)
+        const foundUser = await userModel.findByIdAndUpdate(id, user)
         return foundUser
     }
 
     async deleteById(id: any) {
-        const deletedUser = await userSchema.findByIdAndDelete(id)
+        const deletedUser = await userModel.findByIdAndDelete(id)
         return deletedUser
     }
 
     async checkLogin(user: any) {
-        const foundUser = await userSchema.findOne({ email: user.email, password: user.password })
+        const foundUser = await userModel.findOne({ email: user.email, password: user.password })
 
         if (foundUser) {
             return "ok"
@@ -101,3 +130,5 @@ export class UserService {
         return "Usuario não encontrado"
     }
 }
+
+export default new UserService();

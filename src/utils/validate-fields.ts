@@ -29,7 +29,6 @@ export class ValidateFields {
 
         const dateObject = new Date(ano, mes, dia);
 
-        console.log(dateObject)
 
         return dateObject.getFullYear() === ano &&
             dateObject.getMonth() === mes &&
@@ -53,7 +52,7 @@ export class ValidateFields {
     }
 
     public validateEmptyString(string: string): boolean {
-        if (typeof string !== 'string') {
+        if (typeof string === 'string') {
             return !isEmpty(string);
         }
 
@@ -106,7 +105,7 @@ export class ValidateFields {
     }
 
     public validateState(value: string) {
-        if (typeof value === 'string') { return false }
+        if (typeof value !== 'string') { return false }
         let states = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC']
         return states.includes(value);
     }

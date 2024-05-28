@@ -5,9 +5,12 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 const corsOptions = {
+    origin: "*",
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
     credentials: true,
-    origin: "http://localhost:3000"
-}
+};
 
 class App {
     public express: express.Application

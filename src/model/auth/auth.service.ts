@@ -8,7 +8,7 @@ import { Jwt } from "../../utils/jwt";
 import { ServiceData } from "../../utils/service-data";
 import { Messages } from "../../enums/messages.enum";
 import { ValidateFields } from "../../utils/validate-fields";
-import { User } from "src/interface/user.interface";
+import { User } from "../../interface/user.interface";
 
 class AuthService {
     private validateFields = new ValidateFields();
@@ -35,6 +35,7 @@ class AuthService {
         if (result) {
             const jwt = new Jwt();
             accessToken = jwt.generateAccessToken(user._id, user.firstName);
+            console.log(accessToken)
         } else {
             return new ServiceData(HttpStatus.UNAUTHORIZED);
         }

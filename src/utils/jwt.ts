@@ -1,6 +1,5 @@
-import 'dotenv/config'
 import jwt from 'jsonwebtoken';
-import 'dotenv/config';
+const jwtSecret = 'skgofygqifty3yt37iytg73gt792gt7';
 
 export class Jwt {
     public generateAccessToken(_id: string, username: string): string {
@@ -9,7 +8,7 @@ export class Jwt {
             userName: username
         }
 
-        const secret = process.env.JWT_SECRET!;
+        const secret = jwtSecret;
 
         const accessToken = jwt.sign(
             payload,
