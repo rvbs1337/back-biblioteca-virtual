@@ -84,7 +84,23 @@ class UserService {
                 Errors.STATE_ERROR
             )
         }
-        //validar cidade
+
+        try {
+            const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${createUserDto.state}/municipios`);
+            const cities = await res.json();
+            if (cities.findIndex((el: any) => el.id == createUserDto.city) == -1) {
+                return new ServiceData(
+                    HttpStatus.BAD_REQUEST,
+                    Errors.CITY_ERROR
+                )
+            }
+        } catch (error) {
+            console.error(error);
+            return new ServiceData(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                Errors.INTERNAL_ERROR
+            )
+        }
 
         return userModel.create(createUserDto)
             .then(() => {

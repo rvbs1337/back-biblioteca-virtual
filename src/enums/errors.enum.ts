@@ -1,6 +1,7 @@
 export enum Errors {
     CPF_ALREADY_EXISTS = 'O cpf já está em uso',
     STATE_ERROR = 'Estado inválido',
+    CITY_ERROR = 'Cidade inválida para o estado escolhido',
     EMAIL_ERROR = 'Email inválido',
     DATE_ERROR = 'Data inválida',
     CPF_ERROR = 'CPF Inválido',
