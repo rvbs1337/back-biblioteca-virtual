@@ -7,13 +7,13 @@ import { validate } from 'class-validator';
 class UserController {
 
     async create(req: Request, res: Response) {
-        const newUser = new CreateUserDTO(req.body);
+        const newUser = new CreateUserDTO(req.body)
         return validate(newUser).then(async (errors) => {
             if (errors.length > 0) {
                 console.log(errors)
                 return res.status(HttpStatus.BAD_REQUEST).send('Bad Request');
             } else {
-                const response = await userService.create(new CreateUserDTO(req.body));
+                const response = await userService.create(newUser);
                 return res.status(response.statusCode).send(response.metaData)
             }
         })
