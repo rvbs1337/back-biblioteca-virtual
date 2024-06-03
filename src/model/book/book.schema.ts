@@ -12,6 +12,10 @@ const bookSchema =  new Schema({
         type: String,
         required: [true, 'author']
     },
+    publisher:{
+        type: String,
+        required: [true, 'publisher']
+    },
     condition:{
         type: String,
         required: [true, 'condition'],
@@ -29,6 +33,11 @@ const bookSchema =  new Schema({
         type: String,
         required: [true, 'email']
     },
+    type:{
+        type: String,
+        required: [true, 'type'],
+        enum: ['DONATION','REQUEST']
+    }
 },{
     timestamps: true,
 })
