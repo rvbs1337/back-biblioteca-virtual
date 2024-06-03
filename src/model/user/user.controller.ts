@@ -7,7 +7,7 @@ import { validate } from 'class-validator';
 class UserController {
 
     async create(req: Request, res: Response) {
-        const newUser = new CreateUserDTO(req.body);
+        const newUser = new CreateUserDTO(req.body)
         return validate(newUser).then(async (errors) => {
             if (errors.length > 0) {
                 console.log(errors)
