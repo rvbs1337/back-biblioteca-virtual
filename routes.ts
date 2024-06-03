@@ -11,6 +11,7 @@ routes.post('/auth/login', authController.signIn);
 
 routes.post('/book/donation', bookController.bookDonation)
 
+routes.post('/book/request', bookController.bookRequest)
 
 // routes.post('/usuario/:id', UserController.updateById)
 // routes.get('/usuario', UserController.findAll)
