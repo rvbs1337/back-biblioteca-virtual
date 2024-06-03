@@ -13,7 +13,7 @@ class UserController {
                 console.log(errors)
                 return res.status(HttpStatus.BAD_REQUEST).send('Bad Request');
             } else {
-                const response = await userService.create(new CreateUserDTO(req.body));
+                const response = await userService.create(newUser);
                 return res.status(response.statusCode).send(response.metaData)
             }
         })
