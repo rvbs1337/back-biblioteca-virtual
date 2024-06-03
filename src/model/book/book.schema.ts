@@ -14,7 +14,8 @@ const bookSchema =  new Schema({
     },
     condition:{
         type: String,
-        required: [true, 'condition']
+        required: [true, 'condition'],
+        enum: ['NOVO', 'USADO']
     },
     image:{
         type: String,
