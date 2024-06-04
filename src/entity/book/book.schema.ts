@@ -1,44 +1,44 @@
-import { Document,Schema,model } from "mongoose";
-import { Book } from "src/interface/book.interface";
+import { Book } from "interface/book.interface";
+import { Document, Schema, model } from "mongoose";
 
 export type BookDocument = Book & Document;
 
-const bookSchema =  new Schema({
-    title:{
+const bookSchema = new Schema({
+    title: {
         type: String,
         required: [true, 'title']
     },
-    author:{
+    author: {
         type: String,
         required: [true, 'author']
     },
-    publisher:{
+    publisher: {
         type: String,
         required: [true, 'publisher']
     },
-    condition:{
+    condition: {
         type: String,
         required: [true, 'condition'],
         enum: ['NOVO', 'USADO']
     },
-    image:{
+    image: {
         type: String,
         required: [true, 'image']
     },
-    date:{
+    date: {
         type: Date,
         required: [true, 'date']
     },
-    email:{
+    email: {
         type: String,
         required: [true, 'email']
     },
-    type:{
+    type: {
         type: String,
         required: [true, 'type'],
-        enum: ['DONATION','REQUEST']
+        enum: ['DONATION', 'REQUEST']
     }
-},{
+}, {
     timestamps: true,
 })
 

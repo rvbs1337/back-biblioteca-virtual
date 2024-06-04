@@ -1,10 +1,10 @@
-import { Book } from "src/interface/book.interface"
+import { Book } from "../../interface/book.interface"
 import bookSchema from "./book.schema"
-import { BookDonationDTO } from "src/dtos/book/book-donation.dto"
-import { ServiceData } from "src/utils/service-data";
-import { HttpStatus } from "src/enums/http-status.enum";
-import { Errors } from "src/enums/errors.enum";
-import { BookRequestDTO } from "src/dtos/book/book-request.dto";
+import { BookDonationDTO } from "../../dtos/book/book-donation.dto"
+import { ServiceData } from "../../utils/service-data";
+import { HttpStatus } from "../../enums/http-status.enum";
+import { Errors } from "../../enums/errors.enum";
+import { BookRequestDTO } from "../../dtos/book/book-request.dto";
 
 class BookService {
     async bookDonation(bookDonationDto: BookDonationDTO) {

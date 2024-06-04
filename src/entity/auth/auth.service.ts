@@ -2,16 +2,19 @@ import { Request, Response } from "express";
 import { UserSignInDto } from "../../dtos/user/user-signin";
 import { Errors } from "../../enums/errors.enum";
 import { HttpStatus } from "../../enums/http-status.enum";
-import userModel from '../../model/user/user.schema'
+// import userModel from '../../model/user/user.schema'
 import { Hash } from "../../utils/hash";
 import { Jwt } from "../../utils/jwt";
 import { ServiceData } from "../../utils/service-data";
 import { Messages } from "../../enums/messages.enum";
 import { ValidateFields } from "../../utils/validate-fields";
-import { User } from "../../interface/user.interface";
+// import { User } from "../../interface/user.interface";
+import { AppDataSource } from "../../datasource/data-source";
+import { User } from "../user/user.entity";
 
 class AuthService {
     private validateFields = new ValidateFields();
+    private userRepository = AppDataSource.getRepository(User)
 
 
     async signIn(userSignIn: UserSignInDto, res: Response) {
@@ -19,7 +22,7 @@ class AuthService {
             return new ServiceData(HttpStatus.BAD_REQUEST, Errors.INVALID_EMAIL_ADDRESS_OR_PASSWORD);
         }
 
-        const user: User | null = await userModel.findOne({ email: userSignIn.email });
+        const user: User | null = await this.userRepository.findOneBy({ email: userSignIn.email });
         let accessToken: string;
 
         if (user === null) {
@@ -34,7 +37,7 @@ class AuthService {
 
         if (result) {
             const jwt = new Jwt();
-            accessToken = jwt.generateAccessToken(user._id, user.firstName);
+            accessToken = jwt.generateAccessToken(user.cpf, user.firstName);
             console.log(accessToken)
         } else {
             return new ServiceData(HttpStatus.UNAUTHORIZED);

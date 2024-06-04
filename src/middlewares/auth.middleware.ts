@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Jwt } from "../utils/jwt";
-import userModel from '../model/user/user.schema';
+import userModel from '../entity/user/user.entity';
 import { User } from "../interface/user.interface";
 import { HttpStatus } from "../enums/http-status.enum";
 

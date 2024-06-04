@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 const jwtSecret = 'skgofygqifty3yt37iytg73gt792gt7';
 
 export class Jwt {

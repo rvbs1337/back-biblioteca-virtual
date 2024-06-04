@@ -1,8 +1,9 @@
-import express from "express";
-import mongoose from "mongoose";
+import * as express from "express";
 import { routes } from "./routes";
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
+import * as cors from 'cors';
+import * as cookieParser from 'cookie-parser';
+import { AppDataSource } from "./src/datasource/data-source";
+import { SetupSQL } from "./src/sql/setup.sql";
 
 const corsOptions = {
     origin: "*",
@@ -29,13 +30,13 @@ class App {
     }
 
     private async database() {
-        try {
-            mongoose.set("strictQuery", true)
-            await mongoose.connect("mongodb://0.0.0.0:27017/biblioteca")
-            console.log("conectou na granja")
-        } catch (error) {
-            console.error("NAO CONECTOU NA FRANGAIADA", error)
-        }
+        AppDataSource.initialize()
+            .then(() => {
+                const sql = new SetupSQL();
+                sql.executeSQLs(AppDataSource);
+                console.log("conectou na granja")
+            })
+            .catch((error) => console.error("NAO CONECTOU NA FRANGAIADA", error))
     }
 
     private routes(): void {

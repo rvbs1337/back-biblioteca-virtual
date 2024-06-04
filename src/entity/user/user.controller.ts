@@ -20,27 +20,12 @@ class UserController {
     }
 
     async findById(req: Request, res: Response) {
-        const user = await userService.findById(req.params.id)
+        const user = await userService.findByCPF(req.params.id)
         return res.json(user)
     }
 
     async findAll(req: Request, res: Response) {
         const user = await userService.findAll()
-        return res.json(user)
-    }
-
-    async updateById(req: Request, res: Response) {
-        const user = await userService.updateById(req.params.id, req.body)
-        return res.json(user)
-    }
-
-    async deleteById(req: Request, res: Response) {
-        const user = await userService.deleteById(req.params.id)
-        return res.json(user)
-    }
-
-    async checkLogin(req: Request, res: Response) {
-        const user = await userService.checkLogin(req.body)
         return res.json(user)
     }
 }

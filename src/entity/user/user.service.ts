@@ -1,35 +1,22 @@
 import { CreateUserDTO } from "../../dtos/user/create-user.dto";
-import userModel from "./user.schema";
 import { ValidateFields } from "../../utils/validate-fields";
 import { ServiceData } from "../../utils/service-data";
 import { HttpStatus } from "../../enums/http-status.enum";
 import { Errors } from "../../enums/errors.enum";
 import { FormatFields } from "../../utils/format-fields";
-import { User } from "../../interface/user.interface";
 import { Hash } from "../../utils/hash";
+import { AppDataSource } from "../../datasource/data-source";
+import { User } from "./user.entity";
+
 
 class UserService {
     private readonly validate = new ValidateFields();
     private readonly format = new FormatFields();
-    // async create(user: any) {
-    //     if (user.password.lenght < 8) {
-    //         return "A senha deve ter no minimo 8 digitos"
-    //     }
-
-    //     const createUser = userSchema.create(user)
-    //     return "Usuario Cadastrado com Sucesso!"
-    // }
+    private userRepository = AppDataSource.getRepository(User);
 
     async create(createUserDto: CreateUserDTO) {
 
         const hash = new Hash();
-
-        // if (!this.validate.validateEmptyString(createUserDto.firstName) || !this.validate.validateEmptyString(createUserDto.lastName)) {
-        //     return new ServiceData(
-        //         HttpStatus.BAD_REQUEST,
-        //         Errors.NAME_OR_LASTNAME_ERROR
-        //     )
-        // }
 
         createUserDto.cpf = this.format.onlyNumbers(createUserDto.cpf);
         if (!this.validate.validateCpf(createUserDto.cpf)) {
@@ -39,7 +26,7 @@ class UserService {
             )
         }
 
-        const exists: User | null = await userModel.findOne({ cpf: createUserDto.cpf });
+        const exists: User | null = await this.userRepository.findOneBy({ cpf: createUserDto.cpf });
 
         if (exists !== null) {
             return new ServiceData(
@@ -49,12 +36,6 @@ class UserService {
         }
 
         createUserDto.phoneNumber = this.format.formatPhoneNumber(createUserDto.phoneNumber);
-        // if (!this.validate.validatePhoneNumber(createUserDto.phoneNumber)) {
-        //     return new ServiceData(
-        //         HttpStatus.BAD_REQUEST,
-        //         Errors.PHONE_NUMBER_ERROR
-        //     )
-        // }
 
         if (!this.validate.validateDate(createUserDto.date)) {
             return new ServiceData(
@@ -63,19 +44,6 @@ class UserService {
             )
         }
 
-        // if (!this.validate.validateEmail(createUserDto.email)) {
-        //     return new ServiceData(
-        //         HttpStatus.BAD_REQUEST,
-        //         Errors.EMAIL_ERROR
-        //     )
-        // }
-
-        // if (!this.validate.validatePassword(createUserDto.password)) {
-        //     return new ServiceData(
-        //         HttpStatus.BAD_REQUEST,
-        //         Errors.PASSWORD_LENGTH_ERROR
-        //     )
-        // }
         createUserDto.password = await hash.encode(createUserDto.password);
 
         if (!this.validate.validateState(createUserDto.state)) {
@@ -102,7 +70,7 @@ class UserService {
             )
         }
 
-        return userModel.create(createUserDto)
+        return this.userRepository.save(createUserDto)
             .then(() => {
                 return new ServiceData(
                     HttpStatus.CREATED
@@ -117,33 +85,14 @@ class UserService {
 
     }
 
-    async findById(id: any) {
-        const foundUser = await userModel.findById(id)
+    async findByCPF(cpf: string) {
+        const foundUser = await this.userRepository.findOneBy({ cpf: cpf })
         return foundUser
     }
 
     async findAll() {
-        const foundUser = await userModel.find()
+        const foundUser = await this.userRepository.find();
         return foundUser
-    }
-
-    async updateById(id: any, user: any) {
-        const foundUser = await userModel.findByIdAndUpdate(id, user)
-        return foundUser
-    }
-
-    async deleteById(id: any) {
-        const deletedUser = await userModel.findByIdAndDelete(id)
-        return deletedUser
-    }
-
-    async checkLogin(user: any) {
-        const foundUser = await userModel.findOne({ email: user.email, password: user.password })
-
-        if (foundUser) {
-            return "ok"
-        }
-        return "Usuario não encontrado"
     }
 }
 

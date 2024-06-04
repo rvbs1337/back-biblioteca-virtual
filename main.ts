@@ -1,4 +1,5 @@
 import app from "./app"
+import "reflect-metadata"
 
 declare module 'express-serve-static-core' {
     interface Request {

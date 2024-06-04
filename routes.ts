@@ -1,11 +1,10 @@
 import { Router } from 'express'
-import UserController from './src/model/user/user.controller'
-import authController from './src/model/auth/auth.controller'
-import bookController from 'src/model/book/book.controller'
+import UserController from './src/entity/user/user.controller'
+import authController from './src/entity/auth/auth.controller'
+import bookController from './src/entity/book/book.controller'
 
 const routes = Router()
 routes.post('/usuarios/cadastro', UserController.create)
-// routes.post('/usuario/login', UserController.checkLogin)
 
 routes.post('/auth/login', authController.signIn);
 
