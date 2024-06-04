@@ -1,11 +1,29 @@
+import { IsString } from "class-validator";
+
 export class BookDonationDTO {
+
+    @IsString()
     title: string;
+
+    @IsString()
     author: string;
+
+    @IsString()
     publisher: string;
+
+    @IsString()
     condition: string;
+
+    @IsString()
     image: string;
+
+    @IsString()
     date: string;
+
+    @IsString()
     email: string;
+
+    @IsString()
     type: string;
 
     constructor(data: {

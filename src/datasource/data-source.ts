@@ -1,3 +1,4 @@
+import { Book } from "../entity/book/book.entity";
 import { User } from "../entity/user/user.entity";
 import { DataSource } from "typeorm"
 
@@ -9,7 +10,7 @@ export const AppDataSource = new DataSource({
     password: "kds123",
     database: "biblioteca",
     schema: "public",
-    entities: [User],
+    entities: [User, Book],
     logging: true,
     subscribers: [],
     migrations: [],
