@@ -24,12 +24,12 @@ class UserService {
 
         const hash = new Hash();
 
-        if (!this.validate.validateEmptyString(createUserDto.firstName) || !this.validate.validateEmptyString(createUserDto.lastName)) {
-            return new ServiceData(
-                HttpStatus.BAD_REQUEST,
-                Errors.NAME_OR_LASTNAME_ERROR
-            )
-        }
+        // if (!this.validate.validateEmptyString(createUserDto.firstName) || !this.validate.validateEmptyString(createUserDto.lastName)) {
+        //     return new ServiceData(
+        //         HttpStatus.BAD_REQUEST,
+        //         Errors.NAME_OR_LASTNAME_ERROR
+        //     )
+        // }
 
         createUserDto.cpf = this.format.onlyNumbers(createUserDto.cpf);
         if (!this.validate.validateCpf(createUserDto.cpf)) {
@@ -49,12 +49,12 @@ class UserService {
         }
 
         createUserDto.phoneNumber = this.format.formatPhoneNumber(createUserDto.phoneNumber);
-        if (!this.validate.validatePhoneNumber(createUserDto.phoneNumber)) {
-            return new ServiceData(
-                HttpStatus.BAD_REQUEST,
-                Errors.PHONE_NUMBER_ERROR
-            )
-        }
+        // if (!this.validate.validatePhoneNumber(createUserDto.phoneNumber)) {
+        //     return new ServiceData(
+        //         HttpStatus.BAD_REQUEST,
+        //         Errors.PHONE_NUMBER_ERROR
+        //     )
+        // }
 
         if (!this.validate.validateDate(createUserDto.date)) {
             return new ServiceData(
@@ -63,19 +63,19 @@ class UserService {
             )
         }
 
-        if (!this.validate.validateEmail(createUserDto.email)) {
-            return new ServiceData(
-                HttpStatus.BAD_REQUEST,
-                Errors.EMAIL_ERROR
-            )
-        }
+        // if (!this.validate.validateEmail(createUserDto.email)) {
+        //     return new ServiceData(
+        //         HttpStatus.BAD_REQUEST,
+        //         Errors.EMAIL_ERROR
+        //     )
+        // }
 
-        if (!this.validate.validatePassword(createUserDto.password)) {
-            return new ServiceData(
-                HttpStatus.BAD_REQUEST,
-                Errors.PASSWORD_LENGTH_ERROR
-            )
-        }
+        // if (!this.validate.validatePassword(createUserDto.password)) {
+        //     return new ServiceData(
+        //         HttpStatus.BAD_REQUEST,
+        //         Errors.PASSWORD_LENGTH_ERROR
+        //     )
+        // }
         createUserDto.password = await hash.encode(createUserDto.password);
 
         if (!this.validate.validateState(createUserDto.state)) {
