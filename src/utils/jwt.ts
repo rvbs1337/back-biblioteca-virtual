@@ -1,10 +1,10 @@
 import * as jwt from 'jsonwebtoken';
-const jwtSecret = 'skgofygqifty3yt37iytg73gt792gt7';
+const jwtSecret = "353f94b9-db25-46da-a553-96fa31dd8d50";
 
 export class Jwt {
-    public generateAccessToken(_id: string, username: string): string {
+    public generateAccessToken(id: string, username: string): string {
         const payload = {
-            _id: _id,
+            id: id,
             userName: username
         }
 

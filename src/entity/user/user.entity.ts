@@ -5,13 +5,13 @@ export class User {
     @PrimaryColumn()
     cpf: string
 
-    @Column()
+    @Column({ name: 'firstname' })
     firstName: string
 
-    @Column()
+    @Column({ name: 'lastname' })
     lastName: string
 
-    @Column()
+    @Column({ name: 'phonenumber' })
     phoneNumber: string
 
     @Column("date")

@@ -4,8 +4,22 @@ import { BookDonationDTO } from "../../dtos/book/book-donation.dto"
 import { validate } from "class-validator";
 import { HttpStatus } from "../../enums/http-status.enum";
 import { BookRequestDTO } from "../../dtos/book/book-request.dto";
+import { BookPubliDTO } from "../../dtos/book/book-publi.dto";
 
 class BookController {
+
+    async createBookPubli(req: Request, res: Response) {
+        const newBookPubli = new BookPubliDTO(req.body);
+        return validate(newBookPubli).then(async (errors) => {
+            if (errors.length > 0) {
+                console.log(errors)
+                return res.status(HttpStatus.BAD_REQUEST).send('Bad Request');
+            } else {
+                const response = await bookService.createBookPubli(req.user.id, newBookPubli);
+                return res.status(response.statusCode).send(response.metaData)
+            }
+        })
+    }
 
     // async bookDonation(req: Request, res: Response) {
     //     const newBook = new BookDonationDTO(req.body);
