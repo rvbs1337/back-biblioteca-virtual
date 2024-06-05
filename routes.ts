@@ -5,11 +5,12 @@ import bookController from './src/entity/book/book.controller'
 import { authMiddleware } from './src/middlewares/auth.middleware'
 
 const routes = Router()
-routes.post('/usuarios/cadastro', UserController.create)
+routes.post('/usuarios/cadastro', UserController.create);
 
 routes.post('/auth/login', authController.signIn);
 
-routes.post('/publis/create', authMiddleware, bookController.createBookPubli)
+routes.post('/publis/create', authMiddleware, bookController.createBookPubli);
+routes.get('/publis/get', authMiddleware, bookController.getBookPublis);
 
 // routes.post('/book/donation', bookController.bookDonation)
 

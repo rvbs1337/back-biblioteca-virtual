@@ -4,7 +4,7 @@ import { HttpStatus } from "../../enums/http-status.enum";
 import { Errors } from "../../enums/errors.enum";
 import { BookRequestDTO } from "../../dtos/book/book-request.dto";
 import { AppDataSource } from "../../datasource/data-source";
-import { Book } from "./book.entity";
+import { Book, typeEnum } from "./book.entity";
 import { BookPubliDTO } from "../../dtos/book/book-publi.dto";
 import { User } from "../../entity/user/user.entity";
 
@@ -47,6 +47,48 @@ class BookService {
                 HttpStatus.BAD_REQUEST
             )
         }
+    }
+
+    async getBookPublis(uf: string, city: string, type: string) {
+        try {
+            let typeGet: typeEnum | null;
+
+            switch (type) {
+                case 'trade':
+                    typeGet = typeEnum.TRADE
+                    break;
+                case 'donate':
+                    typeGet = typeEnum.DONATE
+                    break;
+                default:
+                    typeGet = null;
+                    break;
+            }
+
+            let publis;
+
+            if (typeGet === null) {
+                publis = await this.bookRepository.find({ where: { state: uf, city: city } });
+            } else {
+                publis = await this.bookRepository.find({
+                    where: { state: uf, city: city, type: typeGet }
+                });
+            }
+
+            console.log(publis)
+
+            return new ServiceData(
+                HttpStatus.OK,
+                'Publis',
+                publis
+            )
+        } catch (error) {
+            return new ServiceData(
+                HttpStatus.INTERNAL_SERVER_ERROR
+            )
+        }
+
+
     }
 
     // async bookDonation(bookDonationDto: BookDonationDTO) {

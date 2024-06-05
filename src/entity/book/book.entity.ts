@@ -49,7 +49,8 @@ export class Book {
     @Column()
     city: string
 
+    @Column()
     @ManyToOne(() => User)
     @JoinColumn({ name: 'cpf' })
-    user: User
+    cpf: User
 }

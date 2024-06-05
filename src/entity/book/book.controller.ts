@@ -21,6 +21,22 @@ class BookController {
         })
     }
 
+    async getBookPublis(req: Request, res: Response) {
+        console.log(req)
+        try {
+
+
+            const uf = req.query.uf
+            const city = req.query.city
+            const type = req.query.type
+
+            const response = await bookService.getBookPublis(String(uf), String(city), String(type));
+            return res.status(response.statusCode).send(response.metaData);
+        } catch (error) {
+            return res.status(500);
+        }
+    }
+
     // async bookDonation(req: Request, res: Response) {
     //     const newBook = new BookDonationDTO(req.body);
     //     return validate(newBook).then(async (errors) => {

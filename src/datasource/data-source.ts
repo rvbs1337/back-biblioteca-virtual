@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
     database: "biblioteca",
     schema: "public",
     entities: [User, Book],
-    logging: true,
+    // logging: true,
     subscribers: [],
     migrations: [],
 });
