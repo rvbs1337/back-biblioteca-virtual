@@ -1,4 +1,4 @@
-import { IsEnum, IsOptional, IsString, MinLength } from "class-validator"
+import { IsBoolean, IsEnum, IsOptional, IsString, MinLength } from "class-validator"
 import { conditionEnum, typeEnum } from "../../entity/book/book.entity"
 import { User } from "../../entity/user/user.entity"
 
@@ -35,11 +35,19 @@ export class BookPubliDTO {
 
     @IsString()
     @IsOptional()
-    city: string
+    cityId: string
 
     @IsString()
     @IsOptional()
-    user: User
+    cityName: string
+
+    @IsBoolean()
+    @IsOptional()
+    active: boolean
+
+    @IsString()
+    @IsOptional()
+    cpf: any
 
     constructor(data: { title: string, author: string, publisher: string, condition: conditionEnum, image: string, type: typeEnum }) {
         this.title = data.title;

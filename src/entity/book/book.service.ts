@@ -24,8 +24,21 @@ class BookService {
 
             bookPubli.date = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
             bookPubli.state = user.state;
-            bookPubli.city = user.city;
-            bookPubli.user = user;
+            bookPubli.cityId = user.city;
+            bookPubli.cpf = user.cpf;
+            bookPubli.active = true;
+
+            console.log(user)
+
+            const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${user.city}`);
+            const city = await res.json();
+            if (city !== null) {
+                bookPubli.cityName = city.nome;
+            } else {
+                return new ServiceData(
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                )
+            }
 
             const bookPubliSave = this.bookRepository.create(bookPubli);
 
@@ -68,10 +81,10 @@ class BookService {
             let publis;
 
             if (typeGet === null) {
-                publis = await this.bookRepository.find({ where: { state: uf, city: city } });
+                publis = await this.bookRepository.find({ where: { state: uf, cityId: city, active: true } });
             } else {
                 publis = await this.bookRepository.find({
-                    where: { state: uf, city: city, type: typeGet }
+                    where: { state: uf, cityId: city, active: true, type: typeGet }
                 });
             }
 

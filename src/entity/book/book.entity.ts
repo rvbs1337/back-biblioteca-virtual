@@ -47,7 +47,13 @@ export class Book {
     state: string
 
     @Column()
-    city: string
+    cityId: string
+
+    @Column()
+    cityName: string
+
+    @Column()
+    active: boolean
 
     @Column()
     @ManyToOne(() => User)
