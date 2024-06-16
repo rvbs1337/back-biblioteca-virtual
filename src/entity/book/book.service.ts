@@ -81,10 +81,11 @@ class BookService {
             let publis;
 
             if (typeGet === null) {
-                publis = await this.bookRepository.find({ where: { state: uf, cityId: city, active: true } });
+                console.log(city)
+                publis = await this.bookRepository.find({ where: { active: true } });
             } else {
                 publis = await this.bookRepository.find({
-                    where: { state: uf, cityId: city, active: true, type: typeGet }
+                    where: { active: true, type: typeGet }
                 });
             }
 
@@ -102,6 +103,33 @@ class BookService {
         }
 
 
+    }
+
+    async getContactAtPubli(id: string) {
+        console.log(id)
+        const publi = await this.bookRepository.findOneBy({ id: Number(id) })
+        if (publi !== null) {
+            const user = await this.userRepository.findOneBy({ cpf: String(publi.cpf) });
+            if (user !== null) {
+                return new ServiceData(
+                    HttpStatus.FOUND,
+                    'User contact',
+                    {
+                        name: user.firstName,
+                        lastName: user.lastName,
+                        number: user.phoneNumber
+                    }
+                )
+            } else {
+                return new ServiceData(
+                    HttpStatus.NOT_FOUND
+                )
+            }
+        } else {
+            return new ServiceData(
+                HttpStatus.NOT_FOUND
+            )
+        }
     }
 
     // async bookDonation(bookDonationDto: BookDonationDTO) {

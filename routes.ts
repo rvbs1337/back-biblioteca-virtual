@@ -11,6 +11,7 @@ routes.post('/auth/login', authController.signIn);
 
 routes.post('/publis/create', authMiddleware, bookController.createBookPubli);
 routes.get('/publis/get', authMiddleware, bookController.getBookPublis);
+routes.get('/publis/contact/:id', authMiddleware, bookController.getContacAtPubli);
 
 // routes.post('/book/donation', bookController.bookDonation)
 

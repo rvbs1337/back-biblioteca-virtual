@@ -37,6 +37,16 @@ class BookController {
         }
     }
 
+    async getContacAtPubli(req: Request, res: Response) {
+        try {
+            const publiId = req.params.id;
+            const response = await bookService.getContactAtPubli(publiId);
+            return res.status(response.statusCode).send(response.metaData)
+        } catch (error) {
+            return res.status(500);
+        }
+    }
+
     // async bookDonation(req: Request, res: Response) {
     //     const newBook = new BookDonationDTO(req.body);
     //     return validate(newBook).then(async (errors) => {
