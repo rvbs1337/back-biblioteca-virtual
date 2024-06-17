@@ -112,7 +112,7 @@ class BookService {
             const user = await this.userRepository.findOneBy({ cpf: String(publi.cpf) });
             if (user !== null) {
                 return new ServiceData(
-                    HttpStatus.FOUND,
+                    HttpStatus.OK,
                     'User contact',
                     {
                         name: user.firstName,
